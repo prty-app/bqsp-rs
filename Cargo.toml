@@ -1,6 +1,16 @@
 [package]
 name = "bqsp"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["FssAy"]
 readme = "README.md"
+
+[features]
+async = ["tokio"]
+
+[dependencies.tokio]
+version = "1.26.0"
+optional = true
+features = [
+    "io-util"
+]

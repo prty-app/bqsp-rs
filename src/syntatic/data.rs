@@ -2,7 +2,10 @@ use std::borrow::Cow;
 use std::ops::Deref;
 
 #[repr(transparent)]
-#[derive(Debug)]
+#[derive(Debug, Clone)]
+/// The data part of the Box.
+/// # Fields
+/// - bytes - owned or borrowed bytes ready to be send
 pub struct Data<'a> {
     bytes: Cow<'a, [u8]>,
 }
