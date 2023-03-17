@@ -6,6 +6,7 @@ authors = ["FssAy"]
 readme = "README.md"
 
 [features]
+default = ["async"]
 async = ["tokio"]
 
 [dependencies.tokio]
