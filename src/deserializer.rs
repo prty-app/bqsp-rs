@@ -22,7 +22,7 @@ use crate::BoxPack;
 /// }
 /// ```
 pub trait Deserializer {
-    type Error;
+    type Error: std::error::Error;
 
     /// Construct Self from BoxPack.
     fn deserialize(data: BoxPack) -> Result<Self, Self::Error> where Self: Sized;

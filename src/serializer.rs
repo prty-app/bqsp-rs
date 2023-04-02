@@ -2,7 +2,7 @@ use crate::{box_to_owned, BoxPack, Data};
 
 /// Used to serialize a specific structure into raw Data.
 pub trait Serializer {
-    type Error;
+    type Error: std::error::Error;
 
     fn serialize(
         &self,
