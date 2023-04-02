@@ -39,3 +39,11 @@ impl<'a> From<Vec<u8>> for Data<'a> {
         }
     }
 }
+
+impl<'a> From<&'a Vec<u8>> for Data<'a> {
+    fn from(bytes: &'a Vec<u8>) -> Self {
+        Self {
+            bytes: Cow::Borrowed(bytes.as_slice()),
+        }
+    }
+}
