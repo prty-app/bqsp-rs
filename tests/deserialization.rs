@@ -1,6 +1,5 @@
 #![allow(dead_code)]
 
-use std::fmt::{Debug, Display, Formatter};
 use std::num::ParseIntError;
 use std::str::FromStr;
 use std::string::FromUtf8Error;
@@ -51,14 +50,6 @@ enum DesError {
     UserNotValidUTF8(FromUtf8Error),
     UserNotValidAge(ParseIntError),
 }
-
-impl Display for DesError {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:?}", self)
-    }
-}
-
-impl std::error::Error for DesError {}
 
 impl Deserializer for Payload {
     type Error = DesError;
