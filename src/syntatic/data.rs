@@ -10,6 +10,13 @@ pub struct Data<'a> {
     bytes: Cow<'a, [u8]>,
 }
 
+pub fn data_to_owned(data: Data<'_>) -> Data<'static> {
+    let bytes = data.bytes.into_owned();
+    Data {
+        bytes: Cow::Owned(bytes)
+    }
+}
+
 impl<'a> Deref for Data<'a> {
     type Target = [u8];
 

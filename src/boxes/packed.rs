@@ -10,6 +10,13 @@ pub struct BoxPack<'d> {
     pub data: Data<'d>,
 }
 
+pub fn box_to_owned(box_pack: BoxPack<'_>) -> BoxPack<'static> {
+    BoxPack {
+        header: box_pack.header,
+        data: crate::data_to_owned(box_pack.data)
+    }
+}
+
 impl<'d> BoxPack<'d> {
     /// Creates a new Box.
     pub fn new(data: Data<'d>, data_type: impl Into<u16>, queue: u8) -> Self {
