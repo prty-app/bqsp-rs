@@ -54,3 +54,11 @@ impl<'a> From<&'a Vec<u8>> for Data<'a> {
         }
     }
 }
+
+impl<'a> From<Cow<'a, [u8]>> for Data<'a> {
+    fn from(value: Cow<'a, [u8]>) -> Self {
+        Self {
+            bytes: value,
+        }
+    }
+}
