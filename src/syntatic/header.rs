@@ -1,18 +1,22 @@
 use super::Data;
 
+pub type HeaderDataSize = u32;
+pub type HeaderDataType = u16;
+pub type HeaderQueue = u8;
+
 #[repr(packed)]  // required for network exchange
 #[derive(Copy, Clone, Debug)]
 /// The Header part of the Box.
 ///
 /// It can be copied or cloned cheaply.
 /// # Fields
-/// - data_size - unsigned 64 bit value used to inform the reader about the size of incoming Data
+/// - data_size - unsigned 32 bit value used to inform the reader about the size of incoming Data
 /// - data_type - unsigned 16 bit value used to inform the reader about the type of incoming Data
 /// - queue - unsigned 8 bit value used to inform the server to which queue use to handle the Box
 pub struct Header {
-    data_size: u64,  // cannot access due to packed representation
-    data_type: u16,
-    queue: u8,
+    data_size: HeaderDataSize,  // cannot access due to packed representation
+    data_type: HeaderDataType,
+    queue: HeaderQueue,
 }
 
 impl Header {
@@ -22,17 +26,17 @@ impl Header {
     // getters needed due to packed representation of the struct
 
     /// Returns the data_size.
-    pub fn get_data_size(&self) -> u64 {
+    pub fn get_data_size(&self) -> HeaderDataSize {
         self.data_size
     }
 
     /// Returns the data_type.
-    pub fn get_data_type(&self) -> u16 {
+    pub fn get_data_type(&self) -> HeaderDataType {
         self.data_type
     }
 
     /// Returns the queue.
-    pub fn get_data_queue(&self) -> u8 {
+    pub fn get_data_queue(&self) -> HeaderQueue {
         self.queue
     }
 
@@ -43,12 +47,12 @@ impl Header {
     /// - queue - the queue number
     pub(crate) fn build_for_data<'a>(
         data: impl AsRef<Data<'a>>,
-        data_type: impl Into<u16>,
-        queue: u8
+        data_type: impl Into<HeaderDataType>,
+        queue: HeaderQueue
     ) -> Self
     {
         Self {
-            data_size: data.as_ref().len() as u64,
+            data_size: data.as_ref().len() as HeaderDataSize,
             data_type: data_type.into(),
             queue,
         }

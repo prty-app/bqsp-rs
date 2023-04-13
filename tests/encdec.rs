@@ -1,7 +1,7 @@
 use bqsp::*;
 
 static PAYLOAD: &'static [u8; 4] = b"BQSP";
-static HEADER_SAMPLE: [u8; Header::SIZE] = [4, 0, 0, 0, 0, 0, 0, 0, 1, 0, 5];
+static HEADER_SAMPLE: [u8; Header::SIZE] = [4, 0, 0, 0, 1, 0, 5];
 
 #[repr(u16)]
 enum Type {
