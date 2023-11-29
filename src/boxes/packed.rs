@@ -29,13 +29,20 @@ impl<'d> BoxPack<'d> {
     // todo: find a better alternative for these 2 "write" functions
 
     pub fn write_sync<W: std::io::Write>(&self, writer: &mut W) -> std::io::Result<()> {
-        writer.write_all(&self.header.into_array())?;
-        writer.write_all(self.data.as_ref())
+        let packet = self.make_packet();
+        writer.write_all(&packet)
     }
 
     #[cfg(feature = "async")]
     pub async fn write_async<W: tokio::io::AsyncWriteExt + Unpin>(&self, writer: &mut W) -> std::io::Result<()> {
-        writer.write_all(&self.header.into_array()).await?;
-        writer.write_all(self.data.as_ref()).await
+        let packet = self.make_packet();
+        writer.write_all(&packet).await
+    }
+
+    fn make_packet(&self) -> Vec<u8> {
+        let mut packet = Vec::with_capacity(Header::SIZE + self.data.len());
+        packet.extend_from_slice(&self.header.into_array());
+        packet.extend_from_slice(self.data.as_ref());
+        packet
     }
 }
