@@ -1,6 +1,6 @@
 [package]
 name = "bqsp"
-version = "0.4.3"
+version = "0.5.0"
 description = "Presentation layer protocol used to transport data in a fast and efficient manner."
 edition = "2021"
 authors = ["FssAy"]
