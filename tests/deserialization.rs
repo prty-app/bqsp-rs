@@ -4,7 +4,7 @@ use std::num::ParseIntError;
 use std::str::FromStr;
 use std::string::FromUtf8Error;
 use bqsp::*;
-use deserializer::Deserializer;
+use deserializer::BoxDeserializer;
 
 #[repr(u16)]
 /// Represents which header data type number corresponds to which Payload variant
@@ -51,10 +51,10 @@ enum DesError {
     UserNotValidAge(ParseIntError),
 }
 
-impl Deserializer for Payload {
+impl BoxDeserializer for Payload {
     type Error = DesError;
 
-    fn deserialize(data: BoxPack) -> Result<Self, Self::Error> where Self: Sized {
+    fn deserialize_box(data: BoxPack) -> Result<Self, Self::Error> where Self: Sized {
         let box_type = DataType::try_from(data.header.get_data_type())?;
 
         let payload = match box_type {
