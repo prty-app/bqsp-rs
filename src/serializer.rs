@@ -1,24 +1,24 @@
 use crate::{box_to_owned, BoxPack, Data};
 
 /// Used to serialize a specific structure into raw Data.
-pub trait Serializer {
+pub trait BoxSerializer {
     type Error;
 
-    fn serialize(
+    fn serialize_box(
         &self,
         data_type: impl Into<u16>,
         queue: u8
     ) -> Result<BoxPack<'_>, Self::Error>
         where Self: Sized;
 
-    fn serialize_owned(
+    fn serialize_owned_box(
         self,
         data_type: impl Into<u16>,
         queue: u8
     ) -> Result<BoxPack<'static>, Self::Error>
         where Self: Sized
     {
-        let box_pack = self.serialize(
+        let box_pack = self.serialize_box(
             data_type,
             queue
         )?;
@@ -29,10 +29,10 @@ pub trait Serializer {
 
 
 // Vec<u8> can always be serialized into BoxPack
-impl Serializer for Vec<u8> {
+impl BoxSerializer for Vec<u8> {
     type Error = std::convert::Infallible;
 
-    fn serialize(
+    fn serialize_box(
         &self,
         data_type: impl Into<u16>,
         queue: u8
@@ -46,7 +46,7 @@ impl Serializer for Vec<u8> {
         ))
     }
 
-    fn serialize_owned(
+    fn serialize_owned_box(
         self,
         data_type: impl Into<u16>,
         queue: u8
